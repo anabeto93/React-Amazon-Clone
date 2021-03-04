@@ -1,45 +1,45 @@
-import React from 'react';
+import React from "react";
 import "./Subtotal.css";
-import CurrencyFormat from 'react-currency-format';
+import CurrencyFormat from "react-currency-format";
 import { useStateValue } from "./StateProvider";
+import { getBasketTotal } from "./reducer";
 
 function Subtotal() {
-    const getBasketTotal = (basket) => {
-        let total = 0;
+//   const getBasketTotal = (basket) => {
+//     let total = 0;
 
-        for (const item in basket) {
-            total += basket[item].price;
-        }
+//     for (const item in basket) {
+//       total += basket[item].price;
+//     }
 
-        return total;
-    };
-    const [{ basket }, dispatch] = useStateValue();
+//     return total;
+//   };
 
-    return (
-        <div className="subtotal">
-            <CurrencyFormat
-            renderText={(value) => (
-                <>
-                <p>
-                    Subtotal ({basket.length} items): <strong>{value}</strong>
-                </p>
-                <small className="subtotal__gift">
-                    <input type="checkbox" /> This order contains a gift
-                </small>
-                </>
-            )}
-            decimalScale={2}
-            value={ getBasketTotal(basket) }
-            displayType={"text"}
-            thousandSeparator={true}
-            prefix={"$"}
-            >
-                
-            </CurrencyFormat>
+  const [{ basket }, dispatch] = useStateValue();
 
-            <button>Proceed to Checkout</button>
-        </div>
-    )
+  return (
+    <div className="subtotal">
+      <CurrencyFormat
+        renderText={(value) => (
+          <>
+            <p>
+              Subtotal ({basket.length} items): <strong>{value}</strong>
+            </p>
+            <small className="subtotal__gift">
+              <input type="checkbox" /> This order contains a gift
+            </small>
+          </>
+        )}
+        decimalScale={2}
+        value={getBasketTotal(basket)}
+        displayType={"text"}
+        thousandSeparator={true}
+        prefix={"$"}
+      ></CurrencyFormat>
+
+      <button>Proceed to Checkout</button>
+    </div>
+  );
 }
 
 export default Subtotal;
