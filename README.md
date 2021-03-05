@@ -4,6 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+You can access the production version of this app on
+
+[https://challenge-62d91.web.app](https://challenge-62d91.web.app)
+
 In the project directory, you can run:
 
 ### `yarn start`
