@@ -33,7 +33,7 @@ app.post('/payments/create', async (req, res) => {
 });
 
 // Listen command
-exports.api = functions.https.onRequest(app)
+exports.api = functions.https.onRequest(app);
 
 //Example endpoint
 // http://127.0.0.1:5001/challenge-62d91/us-central1/api

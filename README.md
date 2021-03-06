@@ -8,6 +8,14 @@ You can access the production version of this app on
 
 [https://challenge-62d91.web.app](https://challenge-62d91.web.app)
 
+### Testing Checkout with Stripe
+
+For the purposes of fake transactions, DO NOT use your real card. Use the below payment details
+
+Card: 4242 4242 4242 4242
+Expiry: 08/25 (or any other date greater than today or in the future)
+Postal Code: any postal code, eg. 00233
+
 In the project directory, you can run:
 
 ### `yarn start`

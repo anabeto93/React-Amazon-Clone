@@ -7,6 +7,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
 import axios from "./axios";
+import { db } from "./firebase";
 
 function Payment() {
     const history = useHistory();
@@ -27,7 +28,7 @@ function Payment() {
       const getClientSecret = async () => {
           const response = await axios({
               method: 'post',
-              url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+              url: `/payments/create?total=${floatToMinor(getBasketTotal(basket))}`
           });
 
           setClientSecret(response.data.clientSecret)
@@ -49,13 +50,27 @@ function Payment() {
             card: elements.getElement(CardElement)
         }
     }).then(({ paymentIntent }) => {
+
+        db.collection('users').doc(user?.uid)
+        .collection('orders').doc(paymentIntent.id).set({
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created
+        })
+
         setSucceeded(true);
         setError(null);
         setProcessing(false);
 
+        dispatch({ type: 'EMPTY_BASKET' })
+
         history.replace('/orders')//replace is meant to avoid coming back to the checkout page
     })
   };
+
+  const floatToMinor = (x) => {
+      return Number.parseInt(Number.parseFloat(x  * 100).toFixed(2));
+  }
 
   const handleChange = (e) => {
     //   e.preventDefault();
@@ -64,7 +79,7 @@ function Payment() {
   };
 
   return (
-    <div class="payment">
+    <div className="payment">
       <div className="payment__container">
         <h1>
           Checkout (<Link to="/checkout">{basket?.length} items</Link>)
